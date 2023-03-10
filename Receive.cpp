@@ -60,6 +60,16 @@ int main(){
     while(true){
         if(std::cin >> buf){
             char *buf_UTF8 = G2U(buf);
+
+            //sendTo函数的参数如下：
+            //int sendto(SOCKET s,const char buf,int len,int flags,const struct sockaddr to,int tolen);
+            //s:数据包应该使用的socket，如果没有绑定，socket库将自动绑定一个可用的端口。
+            //buf:带发送数据的起始地址的指针。可以是任何能够转为char*的数据类型
+            //len:待发送数据的大小，尽量避免发送数据大于1300字节的数据包
+            //flags:对控制发送的标志进行按位或者运算的结果，该值通常取0即可
+            //to:目标接收者的sockaddr。注意to的地址族必须和用于创建socket的地址族一致
+            //tolen:to的sockaddr的大小。对于IPV4,传入sizeof(sockaddr_in)即可。
+            //sendto操作成功返回等待发送的数据长度（说明成功进入发送队列），否则返回-1。
             sendto(udpSocket, buf_UTF8, strlen(buf_UTF8), 0, &toAddr, toAddrLen);
             std::cout << "已发送!" <<std::endl;
             std::cout << ">>> ";
